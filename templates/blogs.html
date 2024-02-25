@@ -15,7 +15,7 @@
                     <!-- Post meta content-->
                     <div class="text-muted fst-italic mb-2">Posted on {{ single_blog.created_at }} by {{single_blog.author }}</div>
                     <!-- Post category-->
-                    <a class="badge bg-warning text-decoration-none text-light" href="#!">{{ single_blog.category }}</a>
+                    <a class="badge bg-warning text-decoration-none text-light" href="{% url 'posts_by_category' single_blog.category.id %}">{{ single_blog.category }}</a>
                 </header>
                 <!-- Preview image figure-->
                 <figure class="mb-4"><img class="img-fluid rounded" src="{{ single_blog.featured_image.url }}"
