@@ -40,6 +40,22 @@
         "documentation": {}
     },
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "django.db",
         "description": "django.db",
@@ -241,6 +257,14 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
         "label": "SocialLink",
         "importPath": "assignments.models",
         "description": "assignments.models",
@@ -346,6 +370,14 @@
     },
     {
         "label": "HttpResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponseRedirect",
         "importPath": "django.http",
         "description": "django.http",
         "isExtraImport": true,
@@ -545,11 +577,20 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "blogs.migrations.0002_comment",
+        "description": "blogs.migrations.0002_comment",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('blogs', '0001_initial'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Comment',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "blogs.migrations.0002_comment",
+        "documentation": {}
+    },
+    {
         "label": "BlogAdmin",
         "kind": 6,
         "importPath": "blogs.admin",
         "description": "blogs.admin",
-        "peekOfCode": "class BlogAdmin(admin.ModelAdmin):\n    prepopulated_fields = {\"slug\": (\"title\",)}\n    list_display = (\"title\", \"category\", \"author\", \"status\", \"is_featured\")\n    search_fields = (\"id\", \"title\", \"category__category_name\", \"status\")\n    list_editable = (\"is_featured\",)\nadmin.site.register(Category)\nadmin.site.register(Blog, BlogAdmin)",
+        "peekOfCode": "class BlogAdmin(admin.ModelAdmin):\n    prepopulated_fields = {\"slug\": (\"title\",)}\n    list_display = (\"title\", \"category\", \"author\", \"status\", \"is_featured\")\n    search_fields = (\"id\", \"title\", \"category__category_name\", \"status\")\n    list_editable = (\"is_featured\",)\nadmin.site.register(Category)\nadmin.site.register(Blog, BlogAdmin)\nadmin.site.register(Comment)",
         "detail": "blogs.admin",
         "documentation": {}
     },
@@ -608,6 +649,15 @@
         "documentation": {}
     },
     {
+        "label": "Comment",
+        "kind": 6,
+        "importPath": "blogs.models",
+        "description": "blogs.models",
+        "peekOfCode": "class Comment(models.Model):\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)\n    comment = models.TextField(max_length=250)\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n    def __str__(self) -> str:\n        return f\"{self.comment}\"",
+        "detail": "blogs.models",
+        "documentation": {}
+    },
+    {
         "label": "STATUS_CHOICES",
         "kind": 5,
         "importPath": "blogs.models",
@@ -639,7 +689,7 @@
         "kind": 2,
         "importPath": "blogs.views",
         "description": "blogs.views",
-        "peekOfCode": "def blogs(request, slug):\n    single_blog = get_object_or_404(Blog, slug=slug, status=\"Published\")\n    context = {\n        \"single_blog\": single_blog,\n    }\n    return render(request, \"blogs.html\", context)\ndef search(request):\n    keyword = request.GET.get(\"keyword\")\n    blogs = Blog.objects.filter(\n        Q(title__icontains=keyword)",
+        "peekOfCode": "def blogs(request, slug):\n    single_blog = get_object_or_404(Blog, slug=slug, status=\"Published\")\n    if request.method == \"POST\":\n        comment = Comment()\n        comment.user = request.user\n        comment.blog = single_blog\n        comment.comment = request.POST[\"comment\"]\n        comment.save()\n        return HttpResponseRedirect(request.path_info)\n    comments = Comment.objects.filter(blog=single_blog)",
         "detail": "blogs.views",
         "documentation": {}
     },
