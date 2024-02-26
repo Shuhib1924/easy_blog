@@ -273,6 +273,22 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
         "label": "UserCreationForm",
         "importPath": "django.contrib.auth.forms",
         "description": "django.contrib.auth.forms",
@@ -282,6 +298,14 @@
     },
     {
         "label": "AuthenticationForm",
+        "importPath": "django.contrib.auth.forms",
+        "description": "django.contrib.auth.forms",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.forms",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreationForm",
         "importPath": "django.contrib.auth.forms",
         "description": "django.contrib.auth.forms",
         "isExtraImport": true,
@@ -917,6 +941,24 @@
         "documentation": {}
     },
     {
+        "label": "AddUserForm",
+        "kind": 6,
+        "importPath": "dashboards.forms",
+        "description": "dashboards.forms",
+        "peekOfCode": "class AddUserForm(UserCreationForm):\n    class Meta:\n        model = User\n        fields = (\n            \"username\",\n            \"email\",\n            \"first_name\",\n            \"last_name\",\n            \"is_active\",\n            \"is_staff\",",
+        "detail": "dashboards.forms",
+        "documentation": {}
+    },
+    {
+        "label": "EditUserForm",
+        "kind": 6,
+        "importPath": "dashboards.forms",
+        "description": "dashboards.forms",
+        "peekOfCode": "class EditUserForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\n            \"username\",\n            \"email\",\n            \"first_name\",\n            \"last_name\",\n            \"is_active\",\n            \"is_staff\",",
+        "detail": "dashboards.forms",
+        "documentation": {}
+    },
+    {
         "label": "urlpatterns",
         "kind": 5,
         "importPath": "dashboards.urls",
@@ -1002,7 +1044,43 @@
         "kind": 2,
         "importPath": "dashboards.views",
         "description": "dashboards.views",
-        "peekOfCode": "def delete_post(request, pk):\n    post = get_object_or_404(Blog, pk=pk)\n    post.delete()\n    return redirect(\"posts\")",
+        "peekOfCode": "def delete_post(request, pk):\n    post = get_object_or_404(Blog, pk=pk)\n    post.delete()\n    return redirect(\"posts\")\ndef users(request):\n    users = User.objects.all()\n    context = {\n        \"users\": users,\n    }\n    return render(request, \"users.html\", context)",
+        "detail": "dashboards.views",
+        "documentation": {}
+    },
+    {
+        "label": "users",
+        "kind": 2,
+        "importPath": "dashboards.views",
+        "description": "dashboards.views",
+        "peekOfCode": "def users(request):\n    users = User.objects.all()\n    context = {\n        \"users\": users,\n    }\n    return render(request, \"users.html\", context)\ndef add_user(request):\n    if request.method == \"POST\":\n        form = AddUserForm(request.POST)\n        if form.is_valid():",
+        "detail": "dashboards.views",
+        "documentation": {}
+    },
+    {
+        "label": "add_user",
+        "kind": 2,
+        "importPath": "dashboards.views",
+        "description": "dashboards.views",
+        "peekOfCode": "def add_user(request):\n    if request.method == \"POST\":\n        form = AddUserForm(request.POST)\n        if form.is_valid():\n            form.save()\n            return redirect(\"users\")\n        else:\n            print(form.errors)\n    form = AddUserForm()\n    context = {",
+        "detail": "dashboards.views",
+        "documentation": {}
+    },
+    {
+        "label": "edit_user",
+        "kind": 2,
+        "importPath": "dashboards.views",
+        "description": "dashboards.views",
+        "peekOfCode": "def edit_user(request, pk):\n    user = get_object_or_404(User, pk=pk)\n    if request.method == \"POST\":\n        form = EditUserForm(request.POST, instance=user)\n        if form.is_valid():\n            form.save()\n            return redirect(\"users\")\n    form = EditUserForm(instance=user)\n    context = {\n        \"form\": form,",
+        "detail": "dashboards.views",
+        "documentation": {}
+    },
+    {
+        "label": "delete_user",
+        "kind": 2,
+        "importPath": "dashboards.views",
+        "description": "dashboards.views",
+        "peekOfCode": "def delete_user(request, pk):\n    user = get_object_or_404(User, pk=pk)\n    user.delete()\n    return redirect(\"users\")",
         "detail": "dashboards.views",
         "documentation": {}
     },
